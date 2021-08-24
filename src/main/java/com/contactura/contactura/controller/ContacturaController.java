@@ -11,26 +11,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.contactura.contactura.model.Contactura;
 import com.contactura.contactura.repository.ContacturaRepository;
+import com.contactura.contactura.service.Mensagem;
 
 @RestController
-@RequestMapping({"/contactura"}) //c
+@RequestMapping({"/contactura"}) 
 public class ContacturaController {
 	
 	@Autowired
 	private ContacturaRepository repository;
 
-// List All - http://localhost:8095/contactura
-	@GetMapping
-	public List findAll() {
+	
+// List All - http://localhost:8095/contactura/find
+	@GetMapping (value = "/find")
+	public List<Contactura> findAll() {
 		return repository.findAll();
 	}
 	
 // Find By Id - http://localhost:8095/contactura/{id}
-	@GetMapping(value = "{id]")
+	@GetMapping(value = "{id}")
 	public ResponseEntity findById(@PathVariable long id) {
 		return repository.findById(id)
 				.map(record -> ResponseEntity.ok().body(record))
@@ -61,11 +64,11 @@ public class ContacturaController {
 //Delete - http://localhost:8095/contactura/{id}
 	@DeleteMapping(path = {"/{id}"})
 	public ResponseEntity<?> delete(@PathVariable long id){
-		return repository.findById(id)
-				.map(record -> {
-					repository.deleteById(id);
-					return ResponseEntity.ok().build();
-				}).orElse(ResponseEntity.notFound().build());
+		return repository.findById(id).map(record -> {
+			repository.deleteById(id);
+			Mensagem mensagem = new Mensagem("Deletado com Sucesso.");
+			return ResponseEntity.ok().body(mensagem);
+		}).orElse(ResponseEntity.notFound().build());
 	};
 
 	}

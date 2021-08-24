@@ -15,17 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.contactura.contactura.model.ContacturaUser;
 import com.contactura.contactura.repository.ContacturaUserRepository;
+import com.contactura.contactura.service.Mensagem;
 
 @RestController
-@RequestMapping({"/user"}) //c
-public class ContacturaUserController {
+@RequestMapping({"/user"}) 
+public class ContacturaControllerUser {
 	
 	@Autowired
 	private ContacturaUserRepository repository;
 
-// List All - http://localhost:8095/contactura
+	// List All - http://localhost:8090/contacturauser
 	@GetMapping
-	public List findAll() {
+	public List<ContacturaUser> findAll() {
 		return repository.findAll();
 	}
 	
@@ -62,12 +63,11 @@ public class ContacturaUserController {
 //Delete - http://localhost:8095/contactura/{id}
 	@DeleteMapping(path = {"/{id}"})
 	public ResponseEntity<?> delete(@PathVariable long id){
-		return repository.findById(id)
-				.map(record -> {
-					repository.deleteById(id);
-					return ResponseEntity.ok().build();
-				}).orElse(ResponseEntity.notFound().build());
+		return repository.findById(id).map(record -> {
+			repository.deleteById(id);
+			Mensagem mensagem = new Mensagem("Deletado com sucesso.");
+			return ResponseEntity.ok().body(mensagem);
+		}).orElse(ResponseEntity.notFound().build());
 	};
 
 	}
-
