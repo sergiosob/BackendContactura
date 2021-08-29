@@ -26,4 +26,8 @@ public class ContacturaUser {
 	private String password;
 	private String name;
 	private Boolean admin;
+	public boolean isAdmin() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

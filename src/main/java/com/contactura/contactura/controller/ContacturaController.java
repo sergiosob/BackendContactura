@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.contactura.contactura.model.Contactura;
@@ -61,15 +61,13 @@ public class ContacturaController {
 				}).orElse(ResponseEntity.notFound().build());
 	}
 	
-//Delete - http://localhost:8095/contactura/{id}
-	@DeleteMapping(path = {"/{id}"})
-	public ResponseEntity<?> delete(@PathVariable long id){
+	// Delete - http://localhost:8090/contactura/{id}
+	@DeleteMapping(path = "{id}")
+	public ResponseEntity<?> delete(@PathVariable long id) {
 		return repository.findById(id).map(record -> {
 			repository.deleteById(id);
-			Mensagem mensagem = new Mensagem("Deletado com Sucesso.");
+			Mensagem mensagem = new Mensagem("Deletado com sucesso!");
 			return ResponseEntity.ok().body(mensagem);
 		}).orElse(ResponseEntity.notFound().build());
-	};
-
 	}
-
+}
