@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "contacturauser")
+@Table(name = "contactura_user")
 
 public class ContacturaUser {
 	
@@ -25,9 +25,6 @@ public class ContacturaUser {
 	private String username;
 	private String password;
 	private String name;
-	private Boolean admin;
-	public boolean isAdmin() {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean admin;
+
 	}
-}

@@ -1,6 +1,6 @@
 package com.contactura.contactura.repository;
 
-import java.util.List;
+//import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,11 +11,9 @@ import com.contactura.contactura.model.ContacturaUser;
 @Repository
 public interface ContacturaUserRepository extends JpaRepository<ContacturaUser, Long> {
 
-	@Query(value = "select * from User", nativeQuery = true)
-	List<ContacturaUser> findAll();
+	@Query(value = "select * from `contactura`.`contactura_user`", nativeQuery = true)
 
-	Object findByUsername(String username);
-
+	ContacturaUser findByUsername(String username);
 	
 	
 }

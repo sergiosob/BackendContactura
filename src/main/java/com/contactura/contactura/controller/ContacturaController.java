@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,13 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.contactura.contactura.model.Contactura;
 import com.contactura.contactura.repository.ContacturaRepository;
 import com.contactura.contactura.service.Mensagem;
 
+@CrossOrigin()
 @RestController
 @RequestMapping({"/contactura"}) 
 public class ContacturaController {
@@ -27,14 +30,14 @@ public class ContacturaController {
 
 	
 // List All - http://localhost:8095/contactura/find
-	@GetMapping (value = "/find")
-	public List<Contactura> findAll() {
+	@GetMapping
+	public List <?> findAll() {
 		return repository.findAll();
 	}
 	
 // Find By Id - http://localhost:8095/contactura/{id}
 	@GetMapping(value = "{id}")
-	public ResponseEntity findById(@PathVariable long id) {
+	public ResponseEntity<?> findById(@PathVariable long id) {
 		return repository.findById(id)
 				.map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
@@ -62,11 +65,11 @@ public class ContacturaController {
 	}
 	
 	// Delete - http://localhost:8090/contactura/{id}
-	@DeleteMapping(path = "{id}")
+	@DeleteMapping(path = {"/{id}"})
 	public ResponseEntity<?> delete(@PathVariable long id) {
 		return repository.findById(id).map(record -> {
 			repository.deleteById(id);
-			Mensagem mensagem = new Mensagem("Deletado com sucesso!");
+			Mensagem mensagem = new Mensagem("Regisro deletado.");
 			return ResponseEntity.ok().body(mensagem);
 		}).orElse(ResponseEntity.notFound().build());
 	}
